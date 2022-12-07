@@ -47,12 +47,14 @@ app.post("/supply", (req, res) => {
 
 app.post("/signup", (req, res) => {
     const q = 
-        "INSERT INTO User ('user_id', 'email', 'Fname', 'Lname' ) VALUES (?)";
+        "INSERT INTO user ('user_id', 'email', 'password', 'Fname', 'Lname', 'is_admin') VALUES (?)";
     const values = [
         req.body.user_id,
         req.body.email,
+        req.body.password,
         req.body.Fname,
         req.body.Lname,
+        req.body.is_admin,
     ];
 
     db.query(q, [values], (err, data) => {
@@ -63,7 +65,7 @@ app.post("/signup", (req, res) => {
 
 app.get("/login", (req, res) => {
     const q =
-        "SELECT * FROM User WHERE email = ? AND password = ?";
+        "SELECT * FROM user WHERE email = ? AND password = ?";
     const values = [
         req.body.email,
         req.body.password,
