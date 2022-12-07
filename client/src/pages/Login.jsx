@@ -99,3 +99,16 @@
 //     </ThemeProvider>
 //   );
 // }
+
+export default function Login() {
+    const [usernameReg, setUernameReg] = useState("");
+    const [passwordReg, setPasswordReg] = useState ("");
+
+    return (
+        <div className="login">
+            <h1>hwfhe</h1> 
+        <input type="text" onChange={(e) => {setUsernameReg(e.target.value)}} />
+        <input type="text" onChange={(e) => {setPasswordReg(e.target.value)}}/>
+        </div> 
+    )
+}
