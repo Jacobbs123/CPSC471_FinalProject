@@ -23,8 +23,8 @@ app.get("/");
 app.get("/supply", (req, res) => {
   const q = "SELECT * FROM product";
   db.query(q, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data);
+    if (err) console.log(err);
+    res.send(data);
   });
 });
 
@@ -39,42 +39,39 @@ app.post("/supply", (req, res) => {
     req.body.intended_animal,
   ];
 
-  db.query(q, [values], (err, data) => {
-    if (err) return res.json(err);
-    return res.json("Supply has been created");
+  db.query(q, values, (err, data) => {
+    if (err) console.log(err);
+    res.send(data);
   });
 });
 
 app.post("/signup", (req, res) => {
-    const q = 
-        "INSERT INTO user ('user_id', 'email', 'password', 'Fname', 'Lname', 'is_admin') VALUES (?)";
-    const values = [
-        req.body.user_id,
-        req.body.email,
-        req.body.password,
-        req.body.Fname,
-        req.body.Lname,
-        req.body.is_admin,
-    ];
+  console.log(req.body);
+  const q =
+    "INSERT INTO user (email, password, Fname, Lname, shipping_address) VALUES (?,?,?,?,?)";
+  const values = [
+    req.body.email,
+    req.body.password,
+    req.body.Fname,
+    req.body.Lname,
+    req.body.shipping_address,
+  ];
 
-    db.query(q, [values], (err, data) => {
-        if (err) return res.json(err);
-        return res.json("User has been created");
-    });
+  db.query(q, values, (err, data) => {
+    if (err) console.log(err);
+    res.send(data);
+  });
 });
 
 app.get("/login", (req, res) => {
-    const q =
-        "SELECT * FROM user WHERE email = ? AND password = ?";
-    const values = [
-        req.body.email,
-        req.body.password,
-    ];
+  console.log(req.query);
+  const q = "SELECT * FROM user WHERE email = ? AND password = ?";
+  const values = [req.query.email, req.query.password];
 
-    db.query(q, [values], (err, data) => {
-        if (err) return res.json(err);
-        return res.json(data);
-    });
+  db.query(q, values, (err, data) => {
+    if (err) console.log(err);
+    res.send(data);
+  });
 });
 
 app.listen(8800, () => {
