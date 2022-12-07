@@ -21,23 +21,34 @@ const Supply = () => {
         fetchAllSupplies()
     }, []);
 
+
+    const addCart = (event, product_id, product_name) => {
+        navigate('/cart', {state: {
+          product_id: product_id,
+          product_name: product_name,
+        }});
+      };
+
     const supplyList = supplies.map((supply, index) => {
         return (
           <div key={index} className="p-5">
             <h2
-              className="text-2xl hover:underline"
+              className="text-md hover:underline"
             >
-            Product: {supply.product_id}    
-            In stock: {supply.quantity}
+            {/* <img src={supply.picture} className=""/> */}
+            {supply.product_name}
             </h2>
+            <p className="text-sm">{supply.description}</p>
+            <p className="text-sm">Price: {supply.price}</p>
+            <p className="text-sm">Quantity: {supply.quantity}</p>
+            <h3 onClick="addCart">Add to cart</h3>
           </div>
         );
       });
 
     return (
         <div>
-            <h1>UCalgary Pet Store</h1>
-            <div className="">
+            <div className="grid grid-cols-2">
                 {supplyList}
             </div>
             <button><Link to="/add">Add new supply</Link></button> 
