@@ -62,12 +62,23 @@ app.post("/cart", (req, res) => {
 app.get("/cart", (req, res) => {
   console.log(req.query);
   const q =
-    "SELECT P.product_name, P.price FROM product AS P WHERE P.product_id IN (SELECT A.product_id FROM added_to AS A WHERE A.cart_id IN (SELECT C.cart_id FROM cart AS C WHERE C.user_id = ? AND C.is_active = 1))";
+    "SELECT P.product_id, P.product_name, P.price FROM product AS P WHERE P.product_id IN (SELECT A.product_id FROM added_to AS A WHERE A.cart_id IN (SELECT C.cart_id FROM cart AS C WHERE C.user_id = ? AND C.is_active = 1))";
   const values = [req.query.user_id];
   db.query(q, values, (err, data) => {
     if (err) console.log(err);
     res.send(data);
   });
+});
+
+app.post("/cartRemove", (req, res) => {
+    const q = 
+    "DELETE FROM added_to WHERE product_id = ? AND cart_id = (SELECT C.cart_id FROM cart AS C WHERE C.user_id = ? AND C.is_active = 1)";
+    const values = [req.body.product_id, req.body.user_id];
+    db.query(q, values, (err, data) => {
+        if (err) console.log(err);
+        res.send(data);
+    }
+    );
 });
 
 app.post("/signup", (req, res) => {

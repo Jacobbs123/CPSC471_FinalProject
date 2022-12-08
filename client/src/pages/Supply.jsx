@@ -58,7 +58,7 @@ const Supply = () => {
             <p className="text-sm">{supply.description}</p>
             <p className="text-sm">Price: {supply.price}</p>
             <p className="text-sm">Quantity: {supply.quantity}</p>
-            <h3 onClick={event => addCart(event, supply.product_id)}>Add to cart</h3>
+            <h3 onClick={event => addCart(event, supply.product_id)} className="hover:font-bold hover:underline">Add to cart</h3>
           </div>
         );
       });
