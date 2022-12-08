@@ -2,10 +2,14 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useUserAuth } from '../Authentication/UserAuthentication';
 import axios from 'axios';
 
 const Supply = () => { 
     const [supplies, setSupplies] = useState([]);
+    const navigate = useNavigate();
+    const { user } = useUserAuth();
 
     useEffect(() => {
         const fetchAllSupplies = async ()=> {
@@ -51,7 +55,9 @@ const Supply = () => {
             <div className="grid grid-cols-2">
                 {supplyList}
             </div>
-            <button><Link to="/add">Add new supply</Link></button> 
+            {user.is_admin == 1 &&
+                <button><Link to="/add">Add new supply</Link></button> 
+            }   
         </div>
     )
 }
