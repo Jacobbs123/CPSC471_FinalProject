@@ -19,19 +19,38 @@ const Cart = () => {
                 }
             });
             setCart(res.data);
-            console.log(res);
+            // console.log(res);
         } catch (err) {
             console.log(err);
         }
     }
     getCart()
-    }, [user]);
+    }, [user, cart]);
+
+    const removeCart = (event, product_id) => {
+        const addCart = async ()=> {
+            try {
+                console.log(user.user_id);
+                // Makes an API request to this link
+                const res = await axios.post("http://localhost:8800/cartRemove", {
+                    product_id: product_id,
+                    user_id: user.user_id,
+                    quantity: 1,
+                });
+                console.log(res);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        addCart()
+      };
    
     const cartList = cart.map((cart, index) => {
         return (
           <div key={index} className="p-5">
             <h2>{cart.product_name}</h2>
             <p>Price: ${cart.price}</p>
+            <h3 onClick={event => removeCart(event, cart.product_id)}>Remove</h3>
           </div>
         );
     });
@@ -43,6 +62,9 @@ const Cart = () => {
             <div className="cart">
                 {cartList}
              </div>
+            <div> 
+                <Link to="/payment">Buy Cart</Link>
+            </div>
         </div>
     );
 } 

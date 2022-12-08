@@ -33,6 +33,7 @@ const Payment = () => {
     // Post details of book to db then navigate to home
     const handleClick = async (e) => {
         e.preventDefault();
+        window.confirm("Your payment was successful! You will be redirected to the online store.");
         navigate("/supply");
     }
     console.log(book);
