@@ -49,24 +49,25 @@ app.post("/supply", (req, res) => {
 });
 
 app.post("/cart", (req, res) => {
-    const q =
-        "INSERT INTO added_to (product_id, cart_id, quantity) VALUES (?,(SELECT C.cart_id FROM cart AS C WHERE user_id = ? AND is_active = 1),?)";
-    const values = [req.body.product_id, req.body.user_id, req.body.quantity];
-    
-    db.query(q, values, (err, data) => {
-        if (err) console.log(err);
-        res.send(data);
-    });
+  const q =
+    "INSERT INTO added_to (product_id, cart_id, quantity) VALUES (?,(SELECT C.cart_id FROM cart AS C WHERE C.user_id = ? AND C.is_active = 1),?)";
+  const values = [req.body.product_id, req.body.user_id, req.body.quantity];
+
+  db.query(q, values, (err, data) => {
+    if (err) console.log(err);
+    res.send(data);
+  });
 });
 
 app.get("/cart", (req, res) => {
-    console.log(req.query);
-    const q = "SELECT P.product_name, P.price FROM product AS P WHERE P.product_id IN (SELECT A.product_id FROM added_to AS A WHERE A.cart_id IN (SELECT C.cart_id FROM cart AS C WHERE C.user_id = ? AND C.is_active = 1))";
-    const values = [req.query.user_id];
-    db.query(q, values, (err, data) => {
-        if (err) console.log(err);
-        res.send(data);
-    });
+  console.log(req.query);
+  const q =
+    "SELECT P.product_name, P.price FROM product AS P WHERE P.product_id IN (SELECT A.product_id FROM added_to AS A WHERE A.cart_id IN (SELECT C.cart_id FROM cart AS C WHERE C.user_id = ? AND C.is_active = 1))";
+  const values = [req.query.user_id];
+  db.query(q, values, (err, data) => {
+    if (err) console.log(err);
+    res.send(data);
+  });
 });
 
 app.post("/signup", (req, res) => {
@@ -84,11 +85,12 @@ app.post("/signup", (req, res) => {
   db.query(q, values, (err, data) => {
     if (err) console.log(err);
     res.send(data);
-  const q2 = "INSERT INTO cart (user_id) VALUES ((SELECT user_id FROM user WHERE email = ?))";
-  const values2 = [req.body.email];
+    const q2 =
+      "INSERT INTO cart (user_id) VALUES ((SELECT user_id FROM user WHERE email = ?))";
+    const values2 = [req.body.email];
     db.query(q2, values2, (err, data) => {
-        if (err) console.log(err);
-        res.send(data);
+      if (err) console.log(err);
+      res.send(data);
     });
   });
 });

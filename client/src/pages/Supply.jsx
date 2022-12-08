@@ -30,10 +30,11 @@ const Supply = () => {
     const addCart = (event, product_id) => {
         const addCart = async ()=> {
             try {
+                console.log(user.user_id);
                 // Makes an API request to this link
                 const res = await axios.post("http://localhost:8800/cart", {
-                    user_id: user.user_id,
                     product_id: product_id,
+                    user_id: user.user_id,
                     quantity: 1,
                 });
                 console.log(res);
