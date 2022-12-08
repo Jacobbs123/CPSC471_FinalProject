@@ -1,10 +1,11 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+
 const userAuthentication = createContext();
 
 export function UserAuthentication({children}) {
     const [user, setUser] = useState(getLocalStorage());
-
+ 
     function signup(email, password, Fname, Lname, shipping_address){
       const user_details = {
         email: email,
@@ -58,6 +59,7 @@ export function UserAuthentication({children}) {
     function logout(){
       localStorage.removeItem("session");
       setUser(null);
+    
     }
 
     useEffect(() => {
