@@ -30,10 +30,13 @@ app.get("/supply", (req, res) => {
 
 app.post("/supply", (req, res) => {
   const q =
-    "INSERT INTO supply (`product_id`, `quantity`, `supplyType`, `intended_animal`) VALUES (?)";
+    "INSERT INTO product (product_name, description, picture, price, quantity, supply_type, intended_animal) VALUES (?,?,?,?,?,?,?)";
   // const values = ["title from backend", "desc from backend", "cover pic from backend"];
   const values = [
-    req.body.product_id,
+    req.body.product_name,
+    req.body.description,
+    req.body.picture,
+    req.body.price,
     req.body.quantity,
     req.body.supplyType,
     req.body.intended_animal,
@@ -43,6 +46,15 @@ app.post("/supply", (req, res) => {
     if (err) console.log(err);
     res.send(data);
   });
+});
+
+app.get("/cart", (req, res) => {
+    const q = "SELECT * FROM cart WHERE user_id = ?";
+    const values = [req.query.user_id];
+    db.query(q, values, (err, data) => {
+        if (err) console.log(err);
+        res.send(data);
+    });
 });
 
 app.post("/signup", (req, res) => {
