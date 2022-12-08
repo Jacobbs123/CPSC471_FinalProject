@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useUserAuth } from '../Authentication/UserAuthentication';
+import Navbar from '../Navbar/NavBar';
 import axios from 'axios';
 
 const Supply = () => { 
@@ -26,18 +27,29 @@ const Supply = () => {
     }, []);
 
 
-    const addCart = (event, product_id, product_name) => {
-        navigate('/cart', {state: {
-          product_id: product_id,
-          product_name: product_name,
-        }});
+    const addCart = (event, product_id) => {
+        const addCart = async ()=> {
+            try {
+                // Makes an API request to this link
+                const res = await axios.post("http://localhost:8800/cart", {
+                    user_id: user.user_id,
+                    product_id: product_id,
+                    quantity: 1,
+                });
+                console.log(res);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        addCart()
+        navigate('/cart');
       };
 
     const supplyList = supplies.map((supply, index) => {
         return (
           <div key={index} className="p-5">
             <h2
-              className="text-md hover:underline"
+              className="text-md"
             >
             {/* <img src={supply.picture} className=""/> */}
             {supply.product_name}
@@ -45,13 +57,14 @@ const Supply = () => {
             <p className="text-sm">{supply.description}</p>
             <p className="text-sm">Price: {supply.price}</p>
             <p className="text-sm">Quantity: {supply.quantity}</p>
-            <h3 onClick="addCart">Add to cart</h3>
+            <h3 onClick={event => addCart(event, supply.product_id)}>Add to cart</h3>
           </div>
         );
       });
 
     return (
         <div>
+            <Navbar />
             <div className="grid grid-cols-2">
                 {supplyList}
             </div>
