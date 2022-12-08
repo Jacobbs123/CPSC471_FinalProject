@@ -12,6 +12,7 @@ import Update from "./pages/Update";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Payment from "./pages/Payment";
 import { UserAuthentication } from "./Authentication/UserAuthentication";
 
 import "./style.css";
@@ -28,6 +29,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/add" element={<Add />} />
             <Route path="/update" element={<Update />} />
+            <Route path="/payment" element={<Payment />} />
           </Routes>
         </BrowserRouter>
       </UserAuthentication>
